@@ -1,12 +1,30 @@
 
 #import "RNKlarna.h"
+#import <React/RCTViewManager.h>
+
+@interface RNKlarna : RCTViewManager
+@end
 
 @implementation RNKlarna
 
-- (dispatch_queue_t)methodQueue
++ (BOOL)requiresMainQueueSetup
 {
-    return dispatch_get_main_queue();
+    return YES;
 }
+
+- (UIView *)view
+{   
+    NSDictionary* infoDict = [[NSBundle mainBundle] infoDictionary];
+    NSString* returnUrl = [infoDict objectForKey:@"ReturnURLKlarna"];
+    return [[KCOKlarnaCheckout alloc] initWithViewController:self returnURL:returnUrl];
+}
+
+RCT_CUSTOM_VIEW_PROPERTY(snippet, NSString *, RNKlarna)
+{   
+    json = RCTConvert NSString:json];
+    view.snippet = json;
+}
+
 RCT_EXPORT_MODULE()
 
 @end

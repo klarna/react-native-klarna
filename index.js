@@ -1,6 +1,11 @@
+//@ flow
+import * as React from 'react';
+import { requireNativeComponent } from 'react-native';
 
-import { NativeModules } from 'react-native';
+export default class RNKlarna extends React.Component {
+  render() {
+    return <Klarna flex={1} />;
+  }
+}
 
-const { RNKlarna } = NativeModules;
-
-export default RNKlarna;
+const Klarna = requireNativeComponent('RNKlarna', RNKlarna);
