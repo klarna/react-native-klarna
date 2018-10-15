@@ -1,29 +1,36 @@
 
 #import "RNKlarna.h"
+#import "RNKlarnaView.h"
 #import <React/RCTViewManager.h>
+#import <React/RCTBridge.h>
+#import <React/RCTEventDispatcher.h>
+#import <React/RCTUtils.h>
+#import <React/UIView+React.h>
+#import <React/RCTUIManager.h>
 
 @implementation RNKlarna
+
+RCT_EXPORT_VIEW_PROPERTY(onCompleteCheckout, RCTBubblingEventBlock);
 
 + (BOOL)requiresMainQueueSetup
 {
     return YES;
 }
 
-- (UIView *)view
-{   
-    NSDictionary* infoDict = [[NSBundle mainBundle] infoDictionary];
-
-    NSString* returnString = [infoDict objectForKey:@"ReturnURLKlarna"];
-    NSURL* returnUrl = [NSURL URLWithString:returnString];
-    UIViewController *ctrl = RCTPresentedViewController();
-    self.checkout = [[KCOKlarnaCheckout alloc] initWithViewController:ctrl returnURL:returnUrl];
-    return _checkout.view;
+- (NSArray<NSString *> *)supportedEvents
+{
+    return @[@"completeCheckout"];
 }
 
-RCT_CUSTOM_VIEW_PROPERTY(snippet, NSString *, RNKlarna)
+- (UIView *)view
 {   
-    json = [RCTConvert NSString:json];
-    self.checkout.snippet = json;
+    return [[RNKlarnaView alloc] initWithBridge:self.bridge];
+}
+
+RCT_CUSTOM_VIEW_PROPERTY(snippet, NSString *, RNKlarnaView)
+{   
+    [view setSnippet:[RCTConvert NSString:json]];
+    [view updateSnippet];
 }
 
 RCT_EXPORT_MODULE()
