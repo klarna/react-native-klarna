@@ -13,7 +13,7 @@
   "license": "MIT",
   "homepage": "https://github.com/dov11/react-native-klarna",
   "peerDependencies": {
-    "react-native": "^0.41.2"
+    "react-native": ">=0.41.2"
   },
   "devDependencies": {
     "eslint": "^5.6.1",
