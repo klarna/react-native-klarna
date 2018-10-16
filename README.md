@@ -1,4 +1,3 @@
-
 # react-native-klarna
 
 ## Getting started
@@ -11,7 +10,6 @@
 
 ### Manual installation
 
-
 #### iOS
 
 1. In XCode, in the project navigator, right click `Libraries` ➜ `Add Files to [your project's name]`
@@ -22,24 +20,34 @@
 #### Android
 
 1. Open up `android/app/src/main/java/[...]/MainActivity.java`
-  - Add `import com.reactlibrary.RNKlarnaPackage;` to the imports at the top of the file
-  - Add `new RNKlarnaPackage()` to the list returned by the `getPackages()` method
-2. Append the following lines to `android/settings.gradle`:
-  	```
-  	include ':react-native-klarna'
-  	project(':react-native-klarna').projectDir = new File(rootProject.projectDir, 	'../node_modules/react-native-klarna/android')
-  	```
-3. Insert the following lines inside the dependencies block in `android/app/build.gradle`:
-  	```
-      compile project(':react-native-klarna')
-  	```
 
+- Add `import com.reactlibrary.RNKlarnaPackage;` to the imports at the top of the file
+- Add `new RNKlarnaPackage()` to the list returned by the `getPackages()` method
+
+2.  Append the following lines to `android/settings.gradle`:
+    ```
+    include ':react-native-klarna'
+    project(':react-native-klarna').projectDir = new File(rootProject.projectDir, 	'../node_modules/react-native-klarna/android')
+    ```
+3.  Insert the following lines inside the dependencies block in `android/app/build.gradle`:
+    ```
+      implementation project(':react-native-klarna')
+    		implementation fileTree(dir: "libs", include: ["*.jar"])
+    ```
+        and within repositories block of the dependencies block:
+        ```
+        	flatDir {
+        		dirs "../../node_modules/react-native-klarna/android/libs"
+        	}
+        ```
+4.  You might also need to add the following line within `<application>` element of your AndroidManifest:
+    `tools:replace="android:allowBackup"`
 
 ## Usage
+
 ```javascript
 import RNKlarna from 'react-native-klarna';
 
 // TODO: What to do with the module?
 RNKlarna;
 ```
-  
