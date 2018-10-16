@@ -32,5 +32,6 @@ repositories {
 
 dependencies {
     compile 'com.facebook.react:react-native:+'
+    compile 'com.klarna.checkout.sdk:klarna-checkout-sdk:1.5.0'
 }
   

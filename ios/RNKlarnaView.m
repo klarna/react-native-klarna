@@ -22,8 +22,8 @@
         self.checkout = [[KCOKlarnaCheckout alloc] initWithViewController:ctrl returnURL:returnUrl];
         self.klarnaVC = [self.checkout checkoutViewController];
         // self.klarnaVC.internalScrollDisabled = YES;
-        // self.klarnaVC.sizingDelegate = self;
-        // self.klarnaVC.parentScrollView = ctrl.scrollView;
+        // self.klarnaVC.sizingDelegate = ctrl;
+        // self.klarnaVC.parentScrollView = self.scrollView;
         [ctrl addChildViewController:_klarnaVC];
         self.klarnaView = _klarnaVC.view;
         [[NSNotificationCenter defaultCenter] addObserver:self 

@@ -8,7 +8,7 @@
 @interface RNKlarnaView : UIView
 @property (nonatomic) UIView *klarnaView;
 @property (nonatomic) KCOKlarnaCheckout *checkout;
-@property (nonatomic) UIViewController *klarnaVC;
+@property (nonatomic) UIViewController<KCOCheckoutViewControllerProtocol> *klarnaVC;
 @property (assign, nonatomic) NSString *snippet;
 - (id)initWithBridge:(RCTBridge *)bridge;
 - (void)updateSnippet;
