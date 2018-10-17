@@ -3,27 +3,17 @@ package com.reactlibrary;
 import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.annotations.ReactProp;
-import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.common.MapBuilder;
 
-import android.app.Activity;
+import android.support.annotation.Nullable;
+
 import android.view.View;
-import android.util.Log;
-
-import com.klarna.checkout.KlarnaCheckout;
-import com.klarna.checkout.SignalListener;
-
-import org.json.JSONException;
-import org.json.JSONObject;
+import java.util.Map;
 
 public class KlarnaViewManager extends SimpleViewManager<View> {
 
-  private final ReactApplicationContext appContext;
-  private KlarnaCheckout mCheckout;
+  private KlarnaView klarnaView;
   public static final String REACT_CLASS = "RNKlarna";
-
-  public KlarnaViewManager(ReactApplicationContext context) {
-    this.appContext = context;
-  }
 
   @Override
   public String getName() {
@@ -32,37 +22,37 @@ public class KlarnaViewManager extends SimpleViewManager<View> {
 
   @Override
   protected View createViewInstance(ThemedReactContext themedReactContext) {
-    Activity activity = this.appContext.getCurrentActivity();
-   if (activity != null) {
-      String name = this.appContext.getPackageName();
-      mCheckout = new KlarnaCheckout(activity, name);
-      mCheckout.setSnippet("snippet");
-      mCheckout.setSignalListener(new SignalListener() {
-            @Override
-            public void onSignal(String eventName, JSONObject jsonObject) {
-                if (eventName.equals("complete")) {
-                    try {
-                        String url = jsonObject.getString("uri");
-                        
-                    } catch (JSONException e) {
-                        Log.e(e.getMessage(), e.toString());
-                    }
-                }
-            }
-      });
-      View klarnaView = mCheckout.getView();
-      if (klarnaView != null) {
-        return mCheckout.getView();
-      } else {
-        return new View(this.appContext);
-      }
-   } else {
-     return new View(this.appContext);
-   }
+    klarnaView = new KlarnaView(themedReactContext);
+    return klarnaView.getmView();
   }
 
   @ReactProp(name = "snippet")
   public void setSnippet(View view, String snippet) {
-      mCheckout.setSnippet(snippet);
+    klarnaView.setSnippet(snippet);
+  }
+
+  public enum Events {
+    EVENT_ON_COMPLETED("onComplete");
+
+    private final String mName;
+
+    Events(final String name) {
+      mName = name;
+    }
+
+    @Override
+    public String toString() {
+      return mName;
+    }
+  }
+
+  @Override
+  @Nullable
+  public Map<String, Object> getExportedCustomDirectEventTypeConstants() {
+    MapBuilder.Builder<String, Object> builder = MapBuilder.builder();
+    for (Events event : Events.values()) {
+      builder.put(event.toString(), MapBuilder.of("registrationName", event.toString()));
+    }
+    return builder.build();
   }
 }
