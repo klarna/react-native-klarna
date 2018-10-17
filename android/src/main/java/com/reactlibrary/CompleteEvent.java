@@ -19,25 +19,29 @@ public class CompleteEvent extends Event<CompleteEvent> {
           new Pools.SynchronizedPool<>(3);
 
   private JSONObject mJsonObject;
+  private String mEventName;
 
   private CompleteEvent() {}
 
   public static CompleteEvent obtain(
           int viewTag,
-          JSONObject jsonObject) {
+          JSONObject jsonObject,
+          String eventName) {
     CompleteEvent event = EVENTS_POOL.acquire();
     if (event == null) {
       event = new CompleteEvent();
     }
-    event.init(viewTag, jsonObject);
+    event.init(viewTag, jsonObject, eventName);
     return event;
   }
 
   private void init(
           int viewTag,
-          JSONObject jsonObject) {
+          JSONObject jsonObject,
+          String eventName) {
     super.init(viewTag);
     mJsonObject = jsonObject;
+    mEventName = eventName;
   }
 
   @Override
@@ -53,16 +57,21 @@ public class CompleteEvent extends Event<CompleteEvent> {
 
   private WritableMap serializeEventData() {
     WritableMap event = Arguments.createMap();
+    WritableMap data = Arguments.createMap();
     // try {
     //   Log.v("KLARNA in event", mJsonObject.toString(4));
     // } catch (JSONException e) {
     //   Log.e(e.getMessage(), e.toString());
     // }
     try {
-      event = jsonToReact(mJsonObject);
+      data = jsonToReact(mJsonObject);
     } catch (JSONException e) {
       Log.e(e.getMessage(), e.toString());
     }
+    event.putString("type", "onComplete");
+    event.putMap("data", data);
+    event.putInt("target", getViewTag());
+    event.putString("signalType", mEventName);
     return event;
   }
 

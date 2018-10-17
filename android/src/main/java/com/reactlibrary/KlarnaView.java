@@ -38,7 +38,7 @@ public class KlarnaView extends View {
           } catch (JSONException e) {
             Log.e(e.getMessage(), e.toString());
           }
-          onReceiveNativeEvent(jsonObject);
+          onReceiveNativeEvent(jsonObject, eventName);
           // }
         }
       });
@@ -58,11 +58,12 @@ public class KlarnaView extends View {
     return mView;
   }
 
-  public void onReceiveNativeEvent(JSONObject jsonObject) {
+  public void onReceiveNativeEvent(JSONObject jsonObject, String eventName) {
 
     CompleteEvent event = CompleteEvent.obtain(
             this.getmView().getId(),
-            jsonObject
+            jsonObject,
+            eventName
     );
 
     this.appContext.getNativeModule(UIManagerModule.class).getEventDispatcher().dispatchEvent(event);

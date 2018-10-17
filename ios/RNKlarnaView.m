@@ -5,7 +5,7 @@
 
 @interface RNKlarnaView ()
 @property (nonatomic, weak) RCTBridge *bridge;
-@property (nonatomic, copy) RCTBubblingEventBlock onCompleteCheckout;
+@property (nonatomic, copy) RCTBubblingEventBlock onComplete;
 - (UIViewController *)parentViewController;
 @end
 @implementation RNKlarnaView
@@ -56,8 +56,8 @@
 
 - (void)onCheckoutComplete:(NSDictionary *)event
 {   
-  if(_onCompleteCheckout) {
-    _onCompleteCheckout(event);
+  if(_onComplete) {
+    _onComplete(event);
   }
 }
 
@@ -66,10 +66,10 @@
     NSDictionary *data = notification.userInfo[KCOSignalDataKey];
     NSLog(@"Signal name:%@", name);
     NSLog(@"Args: %@", data);
-    if ([name isEqualToString:@"complete"]) {
-      NSDictionary *completeEvent = @{@"type" : @"completeCheckout", @"data" : data};
+    // if ([name isEqualToString:@"complete"]) {
+      NSDictionary *completeEvent = @{@"type" : @"onComplete", @"data" : data, @"signalType" : name};
       [self onCheckoutComplete: completeEvent];
-    }
+    // }
 }
 
 - (UIViewController *)parentViewController {

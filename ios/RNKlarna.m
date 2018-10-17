@@ -9,7 +9,7 @@
 
 @implementation RNKlarna
 
-RCT_EXPORT_VIEW_PROPERTY(onCompleteCheckout, RCTBubblingEventBlock);
+RCT_EXPORT_VIEW_PROPERTY(onComplete, RCTBubblingEventBlock);
 
 + (BOOL)requiresMainQueueSetup
 {
@@ -18,7 +18,7 @@ RCT_EXPORT_VIEW_PROPERTY(onCompleteCheckout, RCTBubblingEventBlock);
 
 - (NSArray<NSString *> *)supportedEvents
 {
-    return @[@"completeCheckout"];
+    return @[@"onComplete"];
 }
 
 - (UIView *)view
@@ -35,4 +35,3 @@ RCT_CUSTOM_VIEW_PROPERTY(snippet, NSString *, RNKlarnaView)
 RCT_EXPORT_MODULE()
 
 @end
-  

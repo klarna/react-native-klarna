@@ -12,7 +12,6 @@ export default class RNKlarna extends React.Component<Props> {
   };
 
   onComplete = (callback: ?Function) => ({ nativeEvent }: { nativeEvent: Object }) => {
-    console.log(nativeEvent);
     if (callback) {
       callback(nativeEvent);
     }
