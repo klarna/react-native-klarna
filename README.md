@@ -12,6 +12,17 @@
 
 #### iOS
 
+##### CocoaPods route
+
+1. In Podfile add `pod 'RNKlarna', :path => '../node_modules/react-native-klarna'`
+2. Run `pod install`.
+3. Add the following key with your bundle name to your Info.plist:
+
+```
+    <key>ReturnURLKlarna</key>
+	<string>YOUR</string>
+```
+
 1. In XCode, in the project navigator, right click `Libraries` ➜ `Add Files to [your project's name]`
 2. Go to `node_modules` ➜ `react-native-klarna` and add `RNKlarna.xcodeproj`
 3. In XCode, in the project navigator, select your project. Add `libRNKlarna.a` to your project's `Build Phases` ➜ `Link Binary With Libraries`
@@ -43,11 +54,66 @@
 4.  You might also need to add the following line within `<application>` element of your AndroidManifest:
     `tools:replace="android:allowBackup"`
 
-## Usage
+## Usage Example
 
 ```javascript
+// @flow
 import RNKlarna from 'react-native-klarna';
+import type { NativeEvent } from 'react-native-klarna';
 
 // TODO: What to do with the module?
-RNKlarna;
+import React, { PureComponent } from 'react';
+import { connect } from 'react-redux';
+...
+
+type Props = {
+  snippet: string,
+  finalSnippet: string,
+  orderStatus: boolean,
+};
+
+export class KlarnaScreen extends PureComponent<Props> {
+  static defaultProps = {
+    snippet: '',
+    finalSnippet,
+  }
+
+  onComplete = (event: NativeEvent) => {
+    const { signalType } = event;
+    if (signalType === 'complete') {
+      const { getConfirmationSnippet, orderId } = this.props;
+      getConfirmationSnippet(orderId);
+      /*
+      redux action that makes a call to the backend,
+      retrieves the order status and confirmation snippet that we then submit to
+      the Klarna component updating it
+      */
+    }
+  };
+
+  render() {
+    const { snippet, finalSnippet, orderStatus } = this.props;
+    if (orderStatus) snippet = finalSnippet;
+    return (
+      <View>
+        <RNKlarna snippet={snippet} onComplete={this.onComplete} />
+      </View>
+    );
+  }
+}
+
+const mapStateToProps = (state: Store) => ({
+  finalSnippet: state.payment.finalSnippet,
+  orderStatus: state.payment.orderStatus,
+  snippet: state.payment.paymentSnippet,
+});
+
+const mapDispatchToProps = {
+  getConfirmationSnippet: paymentActions.getConfirmationSnippet,
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(KlarnaScreen);
 ```

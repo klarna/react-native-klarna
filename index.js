@@ -6,6 +6,17 @@ type Props = {
   snippet: string,
   onComplete: ?Function,
 };
+
+export type NativeEvent = {
+  data: {
+    order_url?: string,
+    uri?: string,
+  },
+  signalType: string,
+  target: number,
+  type: string,
+};
+
 export default class RNKlarna extends React.Component<Props> {
   static defaultProps = {
     snippet: '',
