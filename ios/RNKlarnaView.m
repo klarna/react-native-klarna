@@ -51,7 +51,12 @@
 
 -(void)updateSnippet
 {
-  [self.checkout setSnippet: self.snippet];
+  if ([self.snippet isEqualToString:@"error"]) {
+      [self.checkout setSnippet: @""];
+    [self.klarnaVC dismissViewControllerAnimated:YES completion:nil];
+  } else {
+    [self.checkout setSnippet: self.snippet];
+  }
 }
 
 - (void)onCheckoutComplete:(NSDictionary *)event
@@ -64,12 +69,8 @@
 - (void)handleNotification:(NSNotification *)notification {
     NSString *name = notification.userInfo[KCOSignalNameKey];
     NSDictionary *data = notification.userInfo[KCOSignalDataKey];
-    NSLog(@"Signal name:%@", name);
-    NSLog(@"Args: %@", data);
-    // if ([name isEqualToString:@"complete"]) {
-      NSDictionary *completeEvent = @{@"type" : @"onComplete", @"data" : data, @"signalType" : name};
-      [self onCheckoutComplete: completeEvent];
-    // }
+    NSDictionary *completeEvent = @{@"type" : @"onComplete", @"data" : data, @"signalType" : name};
+    [self onCheckoutComplete: completeEvent];
 }
 
 - (UIViewController *)parentViewController {
