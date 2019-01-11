@@ -20,7 +20,7 @@
 
 ```
     <key>ReturnURLKlarna</key>
-	<string>YOUR</string>
+    <string>YOUR_BUNDLE_NAME</string>
 ```
 
 1. In XCode, in the project navigator, right click `Libraries` ➜ `Add Files to [your project's name]`
@@ -54,29 +54,22 @@
 4.  You might also need to add the following line within `<application>` element of your AndroidManifest:
     `tools:replace="android:allowBackup"`
 
-## Usage Example
+## Usage Example (Redux)
 
 ```javascript
-// @flow
 import RNKlarna from 'react-native-klarna';
-import type { NativeEvent } from 'react-native-klarna';
+import { NativeEvent } from 'react-native-klarna';
 
-// TODO: What to do with the module?
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 ...
 
-type Props = {
-  snippet: string,
-  finalSnippet: string,
-  orderStatus: boolean,
-};
+type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps;
 
 export class KlarnaScreen extends PureComponent<Props> {
   static defaultProps = {
     snippet: '',
-    finalSnippet,
-  }
+  };
 
   onComplete = (event: NativeEvent) => {
     const { signalType } = event;
@@ -84,19 +77,27 @@ export class KlarnaScreen extends PureComponent<Props> {
       const { getConfirmationSnippet, orderId } = this.props;
       getConfirmationSnippet(orderId);
       /*
-      redux action that makes a call to the backend,
-      retrieves the order status and confirmation snippet that we then submit to
-      the Klarna component updating it
+      Redux action that makes a call to the backend,
+      retrieves the order status and confirmation snippet.
+      We then submit update the Klarna component with new snippet
       */
     }
   };
 
   render() {
-    const { snippet, finalSnippet, orderStatus } = this.props;
+    /*
+     Get inital snippet from your backend and replace it with a confirmation one
+     once the order status is finalised.
+     If error occurs set snippet to 'error' to dismiss loading screen
+    */
+    let { snippet } = this.props;
+    const { finalSnippet, orderStatus, loadError } = this.props;
     if (orderStatus) snippet = finalSnippet;
+    if (loadError) snippet = 'error';
     return (
       <View>
         <RNKlarna snippet={snippet} onComplete={this.onComplete} />
+        ...
       </View>
     );
   }
@@ -105,6 +106,7 @@ export class KlarnaScreen extends PureComponent<Props> {
 const mapStateToProps = (state: Store) => ({
   finalSnippet: state.payment.finalSnippet,
   orderStatus: state.payment.orderStatus,
+  loadError: state.payment.loadError,
   snippet: state.payment.paymentSnippet,
 });
 
