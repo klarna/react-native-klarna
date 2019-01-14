@@ -21,9 +21,6 @@
 
         self.checkout = [[KCOKlarnaCheckout alloc] initWithViewController:ctrl returnURL:returnUrl];
         self.klarnaVC = [self.checkout checkoutViewController];
-        // self.klarnaVC.internalScrollDisabled = YES;
-        // self.klarnaVC.sizingDelegate = ctrl;
-        // self.klarnaVC.parentScrollView = self.scrollView;
         [ctrl addChildViewController:_klarnaVC];
         self.klarnaView = _klarnaVC.view;
         [[NSNotificationCenter defaultCenter] addObserver:self 
@@ -52,7 +49,7 @@
 -(void)updateSnippet
 {
   if ([self.snippet isEqualToString:@"error"]) {
-      [self.checkout setSnippet: @""];
+    [self.checkout setSnippet: @""];
     [self.klarnaVC dismissViewControllerAnimated:YES completion:nil];
   } else {
     [self.checkout setSnippet: self.snippet];
