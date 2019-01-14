@@ -1,16 +1,19 @@
 package com.reactlibrary;
 
-import com.facebook.react.uimanager.SimpleViewManager;
+import com.facebook.react.uimanager.ViewGroupManager;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.common.MapBuilder;
 
 import android.support.annotation.Nullable;
 
+import android.view.ViewGroup;
 import android.view.View;
+import android.widget.LinearLayout;
+
 import java.util.Map;
 
-public class KlarnaViewManager extends SimpleViewManager<View> {
+public class KlarnaViewManager extends ViewGroupManager<LinearLayout> {
 
   private KlarnaView klarnaView;
   public static final String REACT_CLASS = "RNKlarna";
@@ -21,9 +24,12 @@ public class KlarnaViewManager extends SimpleViewManager<View> {
   }
 
   @Override
-  protected View createViewInstance(ThemedReactContext themedReactContext) {
+  protected LinearLayout createViewInstance(ThemedReactContext themedReactContext) {
     klarnaView = new KlarnaView(themedReactContext);
-    return klarnaView.getmView();
+    // creating a wrapper instead of a view is needed for correct work of KLarnaCheckout.destroy()
+    LinearLayout wrapper = new LinearLayout(themedReactContext);
+    wrapper.addView(klarnaView.getmView(), new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+    return wrapper;
   }
 
   @ReactProp(name = "snippet")

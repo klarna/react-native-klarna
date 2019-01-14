@@ -32,14 +32,7 @@ public class KlarnaView extends View {
       mCheckout.setSignalListener(new SignalListener() {
         @Override
         public void onSignal(String eventName, JSONObject jsonObject) {
-          // if (eventName.equals("complete")) {
-          try {
-            Log.v("KLARNA in View", jsonObject.toString(4));
-          } catch (JSONException e) {
-            Log.e(e.getMessage(), e.toString());
-          }
           onReceiveNativeEvent(jsonObject, eventName);
-          // }
         }
       });
       View klarnaView = mCheckout.getView();
@@ -61,7 +54,7 @@ public class KlarnaView extends View {
   public void onReceiveNativeEvent(JSONObject jsonObject, String eventName) {
 
     CompleteEvent event = CompleteEvent.obtain(
-            this.getmView().getId(),
+            ((ViewGroup)this.getmView().getParent()).getId(),
             jsonObject,
             eventName
     );
@@ -70,7 +63,11 @@ public class KlarnaView extends View {
   }
 
   public void setSnippet(String snippet) {
-    mCheckout.setSnippet(snippet);
+    if (snippet.equals("error")) {
+       mCheckout.destroy();
+    } else {
+      mCheckout.setSnippet(snippet);
+    }
   }
 
 }
