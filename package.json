@@ -1,7 +1,7 @@
 {
   "name": "react-native-klarna",
   "version": "0.0.1",
-  "description": "Klarna checkout component for react native",
+  "description": "A React Native wrapper around Klarna Checkout SDK",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -9,9 +9,10 @@
   "keywords": [
     "react-native"
   ],
-  "author": "Daniil Ovoshchnikov",
+  "author": "Daniil Ovoshchnikov<ovo.dan@gmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/dov11/react-native-klarna",
+  "repository": "https://github.com/dov11/react-native-klarna",
   "peerDependencies": {
     "react-native": ">=0.41.2"
   },
