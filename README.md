@@ -41,20 +41,20 @@
     project(':react-native-klarna').projectDir = new File(rootProject.projectDir, 	'../node_modules/react-native-klarna/android')
     ```
 3.  Insert the following lines inside the android block in `android/app/build.gradle`:
-    ````gradle
+    ```gradle
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
-    ```gradle
+    ```
     add the following line inside the dependencies block:
-    ````
+    ```gradle
     implementation project(':react-native-klarna')
-    ````gradle
+    ```
     and within repositories block of the dependencies block add:
     ```gradle
         maven { url 'https://x.klarnacdn.net/mobile-sdk/'}
-    ````
+    ```
     In summary, the following changes should be made:
     ```gradle
     android {
