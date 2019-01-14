@@ -16,21 +16,27 @@
 
 1. In Podfile add `pod 'RNKlarna', :path => '../node_modules/react-native-klarna'`
 2. Run `pod install`.
-3. Add the following key with your bundle name to your Info.plist:
+
+##### Manual route
+
+1. In XCode, in the project navigator, right click `Libraries` ➜ `Add Files to [your project's name]`
+2. Go to `node_modules` ➜ `react-native-klarna` and add `RNKlarna.xcodeproj`
+3. In XCode, in the project navigator, select your project. Add `libRNKlarna.a` to your project's `Build Phases` ➜ `Link Binary With Libraries`
+4. Drag and drop `KlarnaCheckoutSDK.framework` from `node_modules/react-native-klarna/ios/Frameworks`, (deselct copy resources) make sure that it appears in project's `Build Phases` ➜ `Link Binary With Libraries`
+5. Check that Framework and Header search paths in Build Settings contain `$(SRCROOT)/../node_modules/react-native-klarna/ios/Frameworks`
+
+##### After either route
+
+Add the following key with your bundle name to your Info.plist:
 
 ```
     <key>ReturnURLKlarna</key>
     <string>YOUR_BUNDLE_NAME</string>
 ```
 
-1. In XCode, in the project navigator, right click `Libraries` ➜ `Add Files to [your project's name]`
-2. Go to `node_modules` ➜ `react-native-klarna` and add `RNKlarna.xcodeproj`
-3. In XCode, in the project navigator, select your project. Add `libRNKlarna.a` to your project's `Build Phases` ➜ `Link Binary With Libraries`
-4. Run your project (`Cmd+R`)<
-
 #### Android
 
-1. Open up `android/app/src/main/java/[...]/MainActivity.java`
+1. Open `android/app/src/main/java/[...]/MainActivity.java`
 
 - Add `import com.reactlibrary.RNKlarnaPackage;` to the imports at the top of the file
 - Add `new RNKlarnaPackage()` to the list returned by the `getPackages()` method
