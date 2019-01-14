@@ -36,23 +36,64 @@
 - Add `new RNKlarnaPackage()` to the list returned by the `getPackages()` method
 
 2.  Append the following lines to `android/settings.gradle`:
-    ```
+    ```gradle
     include ':react-native-klarna'
     project(':react-native-klarna').projectDir = new File(rootProject.projectDir, 	'../node_modules/react-native-klarna/android')
     ```
-3.  Insert the following lines inside the dependencies block in `android/app/build.gradle`:
-    ```
+3.  Insert the following lines inside the android block in `android/app/build.gradle`:
+    ````gradle
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    ```gradle
+    add the following line inside the dependencies block:
+    ````
+    implementation project(':react-native-klarna')
+    ````gradle
+    and within repositories block of the dependencies block add:
+    ```gradle
+        maven { url 'https://x.klarnacdn.net/mobile-sdk/'}
+    ````
+    In summary, the following changes should be made:
+    ```gradle
+    android {
+      ...
+      compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+      }
+      ...
+    }
+    dependencies {
+      ...
       implementation project(':react-native-klarna')
-    		implementation fileTree(dir: "libs", include: ["*.jar"])
+      ...
+      repositories {
+        ...
+        maven { url 'https://x.klarnacdn.net/mobile-sdk/'}
+        ...
+      }
+    }
     ```
-        and within repositories block of the dependencies block:
-        ```
-        	flatDir {
-        		dirs "../../node_modules/react-native-klarna/android/libs"
-        	}
-        ```
-4.  You might also need to add the following line within `<application>` element of your AndroidManifest:
-    `tools:replace="android:allowBackup"`
+4.  Register an `intent-filter`:
+
+    ```xml
+    <intent-filter>
+      <action android:name="android.intent.action.VIEW" />
+      <category android:name="android.intent.category.DEFAULT" />
+      <category android:name="android.intent.category.BROWSABLE" />
+
+      <data android:scheme="<your-custom-scheme>" />
+      <data android:host="<your-custom-host>" />
+    </intent-filter>
+    ```
+
+5.  Make sure that activity is using `launchMode` `singleTask` or `singleTop`:
+    ```xml
+    <activity
+      android:launchMode="singleTask|singleTop">
+    ```
 
 ## Usage Example (Redux)
 
@@ -88,7 +129,7 @@ export class KlarnaScreen extends PureComponent<Props> {
     /*
      Get inital snippet from your backend and replace it with a confirmation one
      once the order status is finalised.
-     If error occurs set snippet to 'error' to dismiss loading screen
+     If error occurs, set snippet to 'error' to dismiss loading screen
     */
     let { snippet } = this.props;
     const { finalSnippet, orderStatus, loadError } = this.props;
