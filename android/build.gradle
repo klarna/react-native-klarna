@@ -33,14 +33,12 @@ android {
 }
 
 repositories {
-    flatDir {
-            dirs 'libs'
-        }
   mavenCentral()
   maven {
    url 'https://maven.google.com'
   }
   maven { url "https://jitpack.io" }
+  maven { url 'https://x.klarnacdn.net/mobile-sdk/'}
   maven {
     // All of React Native (JS, Obj-C sources, Android binaries) is installed from npm
     url "$rootDir/../node_modules/react-native/android"
@@ -49,7 +47,7 @@ repositories {
 
 
 dependencies {
-    compile 'com.facebook.react:react-native:+'
-    compile (name: 'klarna-checkout', ext: 'aar')
+    implementation 'com.facebook.react:react-native:+'
+    implementation 'com.klarna.checkout:sdk:1.6.8'
 }
   
