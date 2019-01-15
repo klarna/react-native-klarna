@@ -1,7 +1,7 @@
 package com.reactlibrary;
 
-import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.UIManagerModule;

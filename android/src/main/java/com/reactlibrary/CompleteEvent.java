@@ -51,18 +51,12 @@ public class CompleteEvent extends Event<CompleteEvent> {
 
   @Override
   public void dispatch(RCTEventEmitter rctEventEmitter) {
-    Log.v("KLARNA in event", getViewTag() + getEventName() + serializeEventData());
     rctEventEmitter.receiveEvent(getViewTag(), getEventName(), serializeEventData());
   }
 
   private WritableMap serializeEventData() {
     WritableMap event = Arguments.createMap();
     WritableMap data = Arguments.createMap();
-    // try {
-    //   Log.v("KLARNA in event", mJsonObject.toString(4));
-    // } catch (JSONException e) {
-    //   Log.e(e.getMessage(), e.toString());
-    // }
     try {
       data = jsonToReact(mJsonObject);
     } catch (JSONException e) {
