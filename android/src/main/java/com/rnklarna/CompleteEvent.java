@@ -1,4 +1,4 @@
-package com.reactlibrary;
+package com.rnklarna;
 import com.facebook.react.uimanager.events.Event;
 import android.support.v4.util.Pools;
 import android.util.Log;
