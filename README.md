@@ -38,7 +38,7 @@ Add the following key with your bundle name to your Info.plist:
 
 1. Open `android/app/src/main/java/[...]/MainActivity.java`
 
-- Add `import com.reactlibrary.RNKlarnaPackage;` to the imports at the top of the file
+- Add `import com.rnklarna.RNKlarnaPackage;` to the imports at the top of the file
 - Add `new RNKlarnaPackage()` to the list returned by the `getPackages()` method
 
 2.  Append the following lines to `android/settings.gradle`:
