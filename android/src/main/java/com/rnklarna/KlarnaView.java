@@ -52,14 +52,14 @@ public class KlarnaView extends View {
   }
 
   public void onReceiveNativeEvent(JSONObject jsonObject, String eventName) {
-
-    CompleteEvent event = CompleteEvent.obtain(
-            ((ViewGroup)this.getmView().getParent()).getId(),
-            jsonObject,
-            eventName
-    );
-
-    this.appContext.getNativeModule(UIManagerModule.class).getEventDispatcher().dispatchEvent(event);
+    if (this.getmView().getParent() != null) {
+      CompleteEvent event = CompleteEvent.obtain(
+              ((ViewGroup)this.getmView().getParent()).getId(),
+              jsonObject,
+              eventName
+      );
+      this.appContext.getNativeModule(UIManagerModule.class).getEventDispatcher().dispatchEvent(event);
+    }
   }
 
   public void setSnippet(String snippet) {
