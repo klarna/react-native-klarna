@@ -2,11 +2,18 @@
 
 ## Getting started
 
+`$ yarn add react-native-klarna`
+or
 `$ npm install react-native-klarna --save`
 
-### Mostly automatic installation
+### Mostly automatic installation (pre RN 0.60)
 
 `$ react-native link react-native-klarna`
+
+For RN > 0.60 pleas follow `After either route` step for iOS and for Android within repositories block of the dependencies block add:
+    ```gradle
+        maven { url 'https://x.klarnacdn.net/mobile-sdk/'}
+    ```
 
 ### Manual installation
 
@@ -101,33 +108,40 @@ Add the following key with your bundle name to your Info.plist:
       android:launchMode="singleTask|singleTop">
     ```
 
-## Usage Example (Redux)
+## Usage Example
+Typical usage example is shown below, there is also an example app in example/basic
 
 ```javascript
-import RNKlarna from 'react-native-klarna';
-import { NativeEvent } from 'react-native-klarna';
+import RNKlarna, { NativeEvent } from 'react-native-klarna';
 
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 ...
 
-type Props = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps;
+export class KlarnaScreen extends PureComponent {
+  state {
+    snippet: ''
+    loadError: false,
+  }
 
-export class KlarnaScreen extends PureComponent<Props> {
-  static defaultProps = {
-    snippet: '',
-  };
-
-  onComplete = (event: NativeEvent) => {
+  onComplete = async (event: NativeEvent) => {
     const { signalType } = event;
     if (signalType === 'complete') {
-      const { getConfirmationSnippet, orderId } = this.props;
-      getConfirmationSnippet(orderId);
+      const { orderId } = this.props;
       /*
-      Redux action that makes a call to the backend,
-      retrieves the order status and confirmation snippet.
-      We then submit update the Klarna component with new snippet
+      1. Perform call to the backend, and
+      retrieve the order status and confirmation snippet.
+      Update the Klarna component with the new snippet
       */
+     try {
+      const result = await getConfirmationSnippet(orderId);
+      const { newSnippet, orderStatus, loadError } = result;
+      if orderStatus {
+        this.setState({ snippet: newSnippet });
+      } 
+     } catch (error) {
+       this.setState({ loadError: true });
+     }
     }
   };
 
@@ -137,10 +151,11 @@ export class KlarnaScreen extends PureComponent<Props> {
      once the order status is finalised.
      If error occurs, set snippet to 'error' to dismiss loading screen
     */
-    let { snippet } = this.props;
-    const { finalSnippet, orderStatus, loadError } = this.props;
-    if (orderStatus) snippet = finalSnippet;
-    if (loadError) snippet = 'error';
+    let { snippet } = this.state;
+    const { loadError } = this.state;
+    if (loadError) {
+      snippet = 'error';
+    }
     return (
       <View>
         <RNKlarna snippet={snippet} onComplete={this.onComplete} />
@@ -150,19 +165,4 @@ export class KlarnaScreen extends PureComponent<Props> {
   }
 }
 
-const mapStateToProps = (state: Store) => ({
-  finalSnippet: state.payment.finalSnippet,
-  orderStatus: state.payment.orderStatus,
-  loadError: state.payment.loadError,
-  snippet: state.payment.paymentSnippet,
-});
-
-const mapDispatchToProps = {
-  getConfirmationSnippet: paymentActions.getConfirmationSnippet,
-};
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(KlarnaScreen);
 ```
