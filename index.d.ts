@@ -1,4 +1,4 @@
-import { Component, ReactNode } from 'react';
+import { Component } from 'react';
 import { ViewProperties } from 'react-native';
 
 export interface KlarnaProps {

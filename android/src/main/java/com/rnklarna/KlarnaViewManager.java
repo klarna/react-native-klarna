@@ -5,7 +5,7 @@ import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.common.MapBuilder;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
 import android.view.ViewGroup;
 import android.view.View;

@@ -11,6 +11,8 @@ import com.klarna.checkout.SignalListener;
 
 import android.app.Activity;
 
+import androidx.annotation.NonNull;
+
 import org.json.JSONObject;
 import org.json.JSONException;
 
