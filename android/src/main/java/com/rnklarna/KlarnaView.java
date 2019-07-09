@@ -54,9 +54,12 @@ public class KlarnaView extends View {
   }
 
   public void onReceiveNativeEvent(JSONObject jsonObject, String eventName) {
-    if (this.getmView().getParent() != null) {
+    if (this.getmView().getParent() != null
+            && this.getmView().getParent().getParent() != null
+            && this.getmView().getParent().getParent().getParent() != null
+            && this.getmView().getParent().getParent().getParent().getParent() != null ) {
       CompleteEvent event = CompleteEvent.obtain(
-              ((ViewGroup)this.getmView().getParent()).getId(),
+              ((ViewGroup)this.getmView().getParent().getParent().getParent().getParent()).getId(),
               jsonObject,
               eventName
       );
@@ -68,7 +71,9 @@ public class KlarnaView extends View {
     if (snippet.equals("error")) {
        mCheckout.destroy();
     } else {
-      mCheckout.setSnippet(snippet);
+      if (mCheckout != null) {
+        mCheckout.setSnippet(snippet);
+      }
     }
   }
 
