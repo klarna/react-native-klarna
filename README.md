@@ -120,7 +120,7 @@ import { connect } from 'react-redux';
 
 export class KlarnaScreen extends PureComponent {
   state {
-    snippet: ''
+    snippet: '' // <- or initial snippet from your backend
     loadError: false,
   }
 
@@ -129,9 +129,10 @@ export class KlarnaScreen extends PureComponent {
     if (signalType === 'complete') {
       const { orderId } = this.props;
       /*
-      1. Perform call to the backend, and
-      retrieve the order status and confirmation snippet.
-      Update the Klarna component with the new snippet
+      1. Perform call to the backend
+      2. Retrieve the order status and confirmation snippet.
+      3. Update the Klarna component with the confirmation snippet once the order status is final
+      4*. If an error occurs, set snippet to 'error' to dismiss loading screen
       */
      try {
       const result = await getConfirmationSnippet(orderId);
@@ -146,11 +147,6 @@ export class KlarnaScreen extends PureComponent {
   };
 
   render() {
-    /*
-     Get inital snippet from your backend and replace it with a confirmation one
-     once the order status is finalised.
-     If error occurs, set snippet to 'error' to dismiss loading screen
-    */
     let { snippet } = this.state;
     const { loadError } = this.state;
     if (loadError) {
