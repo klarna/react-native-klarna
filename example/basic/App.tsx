@@ -22,15 +22,13 @@ const App = () => {
         <View style={styles.header}>
           <Text style={styles.text}>Header</Text>
         </View>
-        {/* if you want to specify the width of klarna checkout view, wrap it in a view container with a specified dimensions */}
-        <View style={styles.klarnaContainer}>
-          <RNKlarna
-            snippet={snippet}
-            onComplete={(event: NativeEvent) => {
-              console.log(event);
-            }}
-          />
-        </View>
+        <RNKlarna
+          style={styles.klarnaContainer}
+          snippet={snippet}
+          onComplete={(event: NativeEvent) => {
+            console.log(event);
+          }}
+        />
         <View style={styles.footer}>
           <Text style={styles.text}>Footer</Text>
         </View>
@@ -44,6 +42,8 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   klarnaContainer: {
+    // particular height and width can also be set if needed
+    // Note! on android, making the view too narrow is known to lead to the view being cut-off vertically in some cases
     flex: 1,
   },
   header: {
