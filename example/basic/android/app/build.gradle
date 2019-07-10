@@ -173,6 +173,9 @@ dependencies {
     } else {
         implementation 'org.webkit:android-jsc:+'
     }
+    // not using autolinking for dev example because dependency resides in the parent directory
+    implementation project(':react-native-klarna')
+
     repositories {
         maven { url 'https://x.klarnacdn.net/mobile-sdk/'}
     }

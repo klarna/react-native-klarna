@@ -32,6 +32,7 @@ target 'basic' do
     inherit! :search_paths
     # Pods for testing
   end
+  pod 'RNKlarna', :path => '../../../RNKlarna.podspec'
   use_native_modules!
 end
 

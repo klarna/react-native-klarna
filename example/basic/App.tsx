@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   },
   klarnaContainer: {
     // particular height and width can also be set if needed
-    // Note! on android, making the view too narrow is known to lead to the view being cut-off vertically in some cases
+    // Note! on android, making the view too narrow is known to lead to the view being cut-off vertically
     flex: 1,
   },
   header: {

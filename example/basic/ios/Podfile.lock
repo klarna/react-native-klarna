@@ -109,7 +109,7 @@ DEPENDENCIES:
   - React-RCTText (from `../node_modules/react-native/Libraries/Text`)
   - React-RCTVibration (from `../node_modules/react-native/Libraries/Vibration`)
   - React-RCTWebSocket (from `../node_modules/react-native/Libraries/WebSocket`)
-  - RNKlarna (from `/Users/daniilo/Documents/Code/klarna/example/basic/node_modules/react-native-klarna`)
+  - RNKlarna (from `../../../RNKlarna.podspec`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -161,7 +161,7 @@ EXTERNAL SOURCES:
   React-RCTWebSocket:
     :path: "../node_modules/react-native/Libraries/WebSocket"
   RNKlarna:
-    :path: "/Users/daniilo/Documents/Code/klarna/example/basic/node_modules/react-native-klarna"
+    :path: "../../../RNKlarna.podspec"
   yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -192,6 +192,6 @@ SPEC CHECKSUMS:
   RNKlarna: 2036228a3021bbad03f8875ce798a8c9db3a6827
   yoga: 616fde658be980aa60a2158835170f3f9c2d04b4
 
-PODFILE CHECKSUM: ccb4c345712c2504fa12d4236f545b300a279503
+PODFILE CHECKSUM: 8ee0b4f1da57824cb1238425c2985ef3a4771670
 
 COCOAPODS: 1.7.3
