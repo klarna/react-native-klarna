@@ -13,7 +13,7 @@ import com.facebook.react.bridge.JavaScriptModule;
 public class RNKlarnaPackage implements ReactPackage {
     @Override
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
-      return Arrays.<NativeModule>asList(new RNKlarnaModule(reactContext));
+      return Collections.emptyList();
     }
 
     // Deprecated from RN 0.47

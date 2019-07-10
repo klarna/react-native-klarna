@@ -5,8 +5,6 @@ import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.annotations.ReactProp;
 import com.facebook.react.common.MapBuilder;
 
-import androidx.annotation.Nullable;
-
 import android.view.ViewGroup;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -76,28 +74,16 @@ public class KlarnaViewManager extends ViewGroupManager<LinearLayout> {
     klarnaView.setSnippet(snippet);
   }
 
-  public enum Events {
-    EVENT_ON_COMPLETED("onComplete");
 
-    private final String mName;
-
-    Events(final String name) {
-      mName = name;
-    }
-
-    @Override
-    public String toString() {
-      return mName;
-    }
+  public Map getExportedCustomBubblingEventTypeConstants() {
+    return MapBuilder.builder()
+            .put(
+                    "onComplete",
+                    MapBuilder.of(
+                            "phasedRegistrationNames",
+                            MapBuilder.of("bubbled", "onComplete")))
+            .build();
   }
 
-  @Override
-  @Nullable
-  public Map<String, Object> getExportedCustomDirectEventTypeConstants() {
-    MapBuilder.Builder<String, Object> builder = MapBuilder.builder();
-    for (Events event : Events.values()) {
-      builder.put(event.toString(), MapBuilder.of("registrationName", event.toString()));
-    }
-    return builder.build();
-  }
+
 }
