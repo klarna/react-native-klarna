@@ -1,0 +1,6 @@
+rootProject.name = 'basic'
+apply from: file("../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesSettingsGradle(settings)
+// not using autolinking for dev example because dependency resides in the parent directory
+include ':react-native-klarna'
+project(':react-native-klarna').projectDir = new File(rootProject.projectDir, '../../../android')
+include ':app'

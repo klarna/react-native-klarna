@@ -1,10 +1,11 @@
 // @flow
 import * as React from 'react';
-import { requireNativeComponent } from 'react-native';
+import { requireNativeComponent, View } from 'react-native';
 
 type Props = {
   snippet: string,
   onComplete: ?Function,
+  style?: StyleSheet.Styles,
 };
 
 export type NativeEvent = {
@@ -29,8 +30,12 @@ export default class RNKlarna extends React.Component<Props> {
   };
 
   render() {
-    const { snippet, onComplete } = this.props;
-    return <Klarna flex={1} snippet={snippet} onComplete={this.onComplete(onComplete)} />;
+    const { snippet, onComplete, style } = this.props;
+    return (
+      <View style={style}>
+        <Klarna flex={1} snippet={snippet} onComplete={this.onComplete(onComplete)} />
+      </View>
+    );
   }
 }
 
