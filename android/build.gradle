@@ -58,6 +58,7 @@ dependencies {
     implementation "com.facebook.react:react-native:${safeExtGet('reactNativeVersion', '+')}"
     implementation 'com.klarna.checkout:sdk:1.6.12'
 
+    testImplementation 'org.json:json:20190722'
     testImplementation "junit:junit:4.13"
     testImplementation 'androidx.test:core:1.2.0'
     testImplementation "org.robolectric:robolectric:4.3"
