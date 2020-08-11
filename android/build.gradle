@@ -57,5 +57,17 @@ repositories {
 dependencies {
     implementation "com.facebook.react:react-native:${safeExtGet('reactNativeVersion', '+')}"
     implementation 'com.klarna.checkout:sdk:1.6.12'
+
+    testImplementation 'org.json:json:20190722'
+    testImplementation "junit:junit:4.13"
+    testImplementation 'androidx.test:core:1.2.0'
+    testImplementation "org.robolectric:robolectric:4.3"
+    testImplementation "org.mockito:mockito-core:3.3.3"
+    testImplementation "org.mockito:mockito-inline:2.19.0"
+    testImplementation "org.powermock:powermock-core:2.0.7"
+    testImplementation "org.powermock:powermock-api-mockito2:2.0.7"
+    testImplementation "org.powermock:powermock-module-junit4:2.0.7"
+    testImplementation "org.powermock:powermock-module-junit4-rule:2.0.7"
+    testImplementation "org.powermock:powermock-classloading-xstream:2.0.7"
 }
   
